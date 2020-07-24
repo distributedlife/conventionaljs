@@ -1,6 +1,6 @@
 {
   "name": "conventionaljs",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Conventional tests for your JS and TS",
   "main": "src/index.js",
   "scripts": {
