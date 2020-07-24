@@ -4,6 +4,7 @@ const { FunctionDeclaration, ts, ReferenceEntry } = require("ts-morph");
  * @param {FunctionDeclaration} f 
  */
 const assertEventObjectDoesNotEscapeFile = (f) => {
+  const name = f.getParameters()[0].getChildrenOfKind(ts.SyntaxKind.Identifier)[0].getType().getApparentType().getText();
   const locationOfEntryPoint = f.getParameters()[0].getSourceFile().getFilePath()
   const referencedSymbols = f.getParameters()[0].getChildrenOfKind(ts.SyntaxKind.Identifier)[0].findReferences();
 
