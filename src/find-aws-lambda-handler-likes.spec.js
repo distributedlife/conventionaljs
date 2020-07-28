@@ -18,6 +18,11 @@ describe('find-aws-lambda-handler-likes', () => {
         const project = makeProject('./test-data/es6-module-no-js-doc.js');
         expect(findAwsLambdaHandlerLikes(project.getSourceFiles())).toHaveLength(1)
       })
+
+      it('should match the param pattern (event, context) when the handler is async', () => {
+        const project = makeProject('./test-data/es6-module-no-js-doc-async.js');
+        expect(findAwsLambdaHandlerLikes(project.getSourceFiles())).toHaveLength(1)
+      })
     })
   })
 })
