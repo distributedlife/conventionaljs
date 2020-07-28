@@ -12,5 +12,12 @@ describe('find-aws-lambda-handler-likes', () => {
       const project = makeProject('./test-data/es6-module.js');
       expect(findAwsLambdaHandlerLikes(project.getSourceFiles())).toHaveLength(1)
     })
+
+    describe('without JSDoc annotations', () => {
+      it('should match the param pattern (event, context, callback)', () => {
+        const project = makeProject('./test-data/es6-module-no-js-doc.js');
+        expect(findAwsLambdaHandlerLikes(project.getSourceFiles())).toHaveLength(1)
+      })
+    })
   })
 })
