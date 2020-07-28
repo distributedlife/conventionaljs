@@ -4,12 +4,35 @@ Conventional tests for your JS and TS.
 There is only one rule so far and it's incomplete.
 - Make sure AWS Lambda event handler input parameters don't escape the file they are defined in.
 
+## AWS Lambda Handler Matchers
+The following is considered an AWS Lambda handlers if all are true:
+
+- Must be an export of a root source file (file not imported by another source file)
+- Looks like one of the following:
+  - has JSDoc annotation matching an AWS event type e.g. `AWSLambda.DynamoDBStreamEvent` for the first param
+  - has three params (event, context, callback) in that order and with that name 
+  - has two params (event, context) is async
+  - has one param (event) is async and the function name is called "handler"
+
+### The following are considered AWS Lambda Event Types
+- AWSLambda.ALBEvent
+- AWSLambda.APIGatewayEvent
+- AWSLambda.CloudFrontEvent
+- AWSLambda.CloudWatchLogsEvent
+- AWSLambda.CognitoUserPoolEvent
+- AWSLambda.DynamoDBStreamEvent
+- AWSLambda.KinesisStreamEvent
+- AWSLambda.S3CreateEvent
+- AWSLambda.S3Event
+- AWSLambda.SNSEvent
+- AWSLambda.SQSEvent
+
 ## Usage
 You'll need [entente](https://github.com/h-o-t/entente) or [ts-morph](https://github.com/dsherret/ts-morph) for this.
 
 ### entente (known entrypoints only at the moment)
 ```js
-const { createProject } = require("ts-morph");
+const { createProject } = require("entente");
 createProject('./src/index.js');
 
 checkProject(project) 
@@ -33,5 +56,4 @@ checkProject(project)
 
 ## Todos
 - [ ] Make it work with commonjs modules. ts-morph is having a hard time here.
-- [ ] Make it work when someone hasn't annotated the function with JSDoc. There are few things we can do here around scoring the function based on name `handler` and whether it has 3 params (event, context, callback) or 1-2 params (event, [context]) for async functions.
 - [ ] Make sure it doesn't escape through a renamed reference.

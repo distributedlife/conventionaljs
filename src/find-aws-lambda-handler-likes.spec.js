@@ -1,5 +1,6 @@
 const { findAwsLambdaHandlerLikes } = require("./find-aws-lambda-handler-likes");
 const { makeProject } = require("../test-data/makeProject");
+const { matchers } = require("./handler-matchers");
 
 describe('find-aws-lambda-handler-likes', () => {
   describe('es6 modules', () => {
@@ -22,6 +23,21 @@ describe('find-aws-lambda-handler-likes', () => {
       it('should match the param pattern (event, context) when the handler is async', () => {
         const project = makeProject('./test-data/es6-module-no-js-doc-async.js');
         expect(findAwsLambdaHandlerLikes(project.getSourceFiles())).toHaveLength(1)
+      })
+
+      it('should match the param pattern (event) when the handler is async and is called handler', () => {
+        const project = makeProject('./test-data/es6-module-no-js-doc-async-no-context.js');
+        expect(findAwsLambdaHandlerLikes(project.getSourceFiles())).toHaveLength(1)
+      })
+
+      it('should NOT match the param pattern (event) when the handler is async and not called handler', () => {
+        const project = makeProject('./test-data/es6-module-no-js-doc-async-no-context-other-handler-name.js');
+        expect(findAwsLambdaHandlerLikes(project.getSourceFiles())).toHaveLength(0)
+      })
+
+      it('should NOT match the param pattern (someOtherName) when the handler is async and not called handler', () => {
+        const project = makeProject('./test-data/es6-module-no-js-doc-async-no-context-other-param-name.js');
+        expect(findAwsLambdaHandlerLikes(project.getSourceFiles())).toHaveLength(0)
       })
     })
   })

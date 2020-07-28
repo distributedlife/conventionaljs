@@ -1,5 +1,17 @@
 const { ts, FunctionDeclaration } = require("ts-morph");
-const AwsLambdaEventTypes = ['AWSLambda.DynamoDBStreamEvent'];
+const AwsLambdaEventTypes = [
+  'AWSLambda.ALBEvent',
+  'AWSLambda.APIGatewayEvent',
+  'AWSLambda.CloudFrontEvent',
+  'AWSLambda.CloudWatchLogsEvent',
+  'AWSLambda.CognitoUserPoolEvent',
+  'AWSLambda.DynamoDBStreamEvent',
+  'AWSLambda.KinesisStreamEvent',
+  'AWSLambda.S3CreateEvent',
+  'AWSLambda.S3Event',
+  'AWSLambda.SNSEvent',
+  'AWSLambda.SQSEvent',
+];
 
 /**
  * @param {FunctionDeclaration} f
@@ -46,10 +58,29 @@ const has2paramsEventContextAndIsAsync = (f) => {
   return p1Name === 'event' && p2Name === 'context' && isAsync;
 };
 
+/**
+ * @param {FunctionDeclaration} f
+ * @return {boolean}
+ */
+const has1paramsEventAndIsAsync = (f) => {
+  const numParams = f.getParameters().length;
+  if (numParams !== 1) {
+    return false;
+  }
+
+  const isAsync = f.isAsync();
+  const functionName = f.getName();
+
+  const p1Name = f.getParameters()[0].getChildrenOfKind(ts.SyntaxKind.Identifier)[0].getText();
+
+  return p1Name === 'event' && isAsync && functionName === 'handler';
+};
+
 const matchers = [
   isAwsLambdaEventType,
   has3paramsEventContextAndCallback,
-  has2paramsEventContextAndIsAsync
+  has2paramsEventContextAndIsAsync,
+  has1paramsEventAndIsAsync
 ]
 
 module.exports = { matchers }
