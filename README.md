@@ -57,3 +57,9 @@ checkProject(project)
 ## Todos
 - [ ] Make it work with commonjs modules. ts-morph is having a hard time here.
 - [ ] Make sure it doesn't escape through a renamed reference.
+
+## Ideas to explore
+- [ ] express request/response objects are not passed around
+- [ ] GraphQL response objects are converted to view models before use
+- [ ] types defined externally to the project can only be passed out of the file where they are first used (don't couple yourself to external objects) -- but you can define them anywhere
+- [ ] types defined externally to the project can only be used in leaf (files that do not reference other source files) or entrypoint files (files not referened by other source files)
