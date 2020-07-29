@@ -1,7 +1,7 @@
-const { FunctionDeclaration, ts, ReferenceEntry } = require("ts-morph");
+const { FunctionDeclaration, ts, ReferenceEntry, ArrowFunction } = require("ts-morph");
 
 /**
- * @param {FunctionDeclaration} f 
+ * @param {(FunctionDeclaration|ArrowFunction)} f
  */
 const assertEventObjectDoesNotEscapeFile = (f) => {
   const name = f.getParameters()[0].getChildrenOfKind(ts.SyntaxKind.Identifier)[0].getType().getApparentType().getText();

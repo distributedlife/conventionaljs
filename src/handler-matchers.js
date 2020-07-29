@@ -1,4 +1,4 @@
-const { ts, FunctionDeclaration } = require("ts-morph");
+const { ts, FunctionDeclaration, ArrowFunction } = require("ts-morph");
 const AwsLambdaEventTypes = [
   'AWSLambda.ALBEvent',
   'AWSLambda.APIGatewayEvent',
@@ -14,7 +14,7 @@ const AwsLambdaEventTypes = [
 ];
 
 /**
- * @param {FunctionDeclaration} f
+ * @param {(FunctionDeclaration|ArrowFunction)} f
  * @return {boolean}
  */
 const isAwsLambdaEventType = (f) => {
@@ -24,7 +24,7 @@ const isAwsLambdaEventType = (f) => {
 };
 
 /**
- * @param {FunctionDeclaration} f
+ * @param {(FunctionDeclaration|ArrowFunction)} f
  * @return {boolean}
  */
 const has3paramsEventContextAndCallback = (f) => {
@@ -41,7 +41,7 @@ const has3paramsEventContextAndCallback = (f) => {
 };
 
 /**
- * @param {FunctionDeclaration} f
+ * @param {(FunctionDeclaration|ArrowFunction)} f
  * @return {boolean}
  */
 const has2paramsEventContextAndIsAsync = (f) => {
@@ -59,7 +59,7 @@ const has2paramsEventContextAndIsAsync = (f) => {
 };
 
 /**
- * @param {FunctionDeclaration} f
+ * @param {(FunctionDeclaration|ArrowFunction)} f
  * @return {boolean}
  */
 const has1paramsEventAndIsAsync = (f) => {

@@ -41,4 +41,11 @@ describe('find-aws-lambda-handler-likes', () => {
       })
     })
   })
+
+  describe('common-js modules', () => {
+    it('should find common-js modules', () => {
+      const project = makeProject('./test-data/common-js-module.js');
+      expect(findAwsLambdaHandlerLikes(project.getSourceFiles())).toHaveLength(1)
+    })
+  });
 })
